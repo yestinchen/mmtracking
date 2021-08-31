@@ -70,6 +70,10 @@ class TracktorTracker(BaseTracker):
             0,
             self.regression['nms'],
             return_inds=True)
+        # get # of classes.
+        num_classes = track_scores[0].size(1) - 1
+        ids = ids.repeat_interleave(num_classes, 0)
+        
         ids = ids[valid_inds]
 
         valid_inds = track_bboxes[:, -1] > self.regression['obj_score_thr']
